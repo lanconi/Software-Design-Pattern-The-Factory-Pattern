@@ -25,9 +25,38 @@ public abstract class AbstractCustomer implements Customer {
 		return balance;
 	}
 	
+	public void addCredit(double credit) {
+		balance += credit;
+	}
+
+	
 	@Override
-	public List<Product> getPurchased() {
+	public List<Product> getPurchasedList() {
 		return purchasedList;
 	}
+	
+	@Override
+	public  int	getPurchasedQuantity() {
+		return purchasedList.size();
+	}
+	
+	@Override
+	public double getTotalPurchasesAmount() {
+		double total = 0.0d;
+		for( Product product: purchasedList ) {
+			double cost = product.getCost();
+			total += cost;
+		}
+		return total;
+	}
+
+	@Override
+	public double getAveragePurchaseAmount() {
+		if( purchasedList.size() == 0 )
+			return 0.0d;
+		
+		return getTotalPurchasesAmount()/getPurchasedQuantity();
+	}
+
 
 }

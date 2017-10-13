@@ -7,6 +7,7 @@ import com.ep.product.*;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.time.ZonedDateTime;
 
 public class CustomerDemo {
 	
@@ -25,17 +26,20 @@ public class CustomerDemo {
 		Customer customerC = 
 					customerFactory.getCustomer(CustomerType.LARGE, 324772, 210_000.00d);
 		
-		// Display the greeting messages, which will be different, depending upon
-		// what type of Customer they are ...
-		System.out.println( customerA.getGreeting() );
-		System.out.println( customerB.getGreeting() );
-		System.out.println( customerC.getGreeting() );
+		// Print the initial metrics:
+		System.out.println(customerA.getMetrics() );
+		System.out.println(customerB.getMetrics() );
+		System.out.println(customerC.getMetrics() );
+
 		
 		// create some dummy Product Objects and put them in a List<Product>
 		List<Product> productList = new ArrayList<>();
 		for( int i = 1; i <= 21; i++ ) {
 			try {
-				Product p = new Product("Product" + i, i*1_000d);
+				Product p = new Product("Product" + i,  		// id
+										i*1_000d,				// cost
+										"CompanyABC",			// vendor
+										ZonedDateTime.now() );  // zonedDateTime	
 				productList.add(p);
 			} catch( ProductCreationException ex ) {
 				System.out.println( ex.getMessage() );
@@ -77,19 +81,10 @@ public class CustomerDemo {
 		// Print out the metrics for each customer, ID, remaining balance, etc ...s
 		
 		// customerA
-		System.out.println("Customer: " + customerA.getID( ) );
-		System.out.println("Products purchased: " + customerA.getPurchased().size() );
-		System.out.println("Balance: " + customerA.getBalance() );
-		
-		// customerB
-		System.out.println("Customer: " + customerB.getID( ) );
-		System.out.println("Products purchased: " + customerB.getPurchased().size() );
-		System.out.println("Balance: " + customerB.getBalance() );
-		
-		// customerC
-		System.out.println("Customer: " + customerC.getID( ) );
-		System.out.println("Products purchased: " + customerC.getPurchased().size() );
-		System.out.println("Balance: " + customerC.getBalance() );
+		// Print the initial metrics:
+		System.out.println(customerA.getMetrics() );
+		System.out.println(customerB.getMetrics() );
+		System.out.println(customerC.getMetrics() );
 
 	}
 

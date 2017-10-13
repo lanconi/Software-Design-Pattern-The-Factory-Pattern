@@ -10,13 +10,21 @@ public interface Customer {
 	
 	public abstract long 	getID();
 	
-	public abstract double getBalance();
+	public abstract double 	getBalance();
 	
-	public abstract void makePurchase(	Product product )
+	public abstract void	addCredit(double credit);
+	
+	public abstract void 	makePurchase(	Product product )
 			throws PurchaseAmountExceededException, BadPurchaseException;
 	
-	public abstract List<Product> getPurchased();
+	public abstract List<Product> getPurchasedList();
 	
-	public abstract String getGreeting();
-
+	public abstract int	getPurchasedQuantity();
+	
+	public abstract double getTotalPurchasesAmount();
+	
+	public abstract double getAveragePurchaseAmount();
+	
+	public abstract String getMetrics();
+	
 }
