@@ -32,7 +32,11 @@ public class CustomerFactory {
 		
 	}
 	
-	public Customer getCustomer(CustomerType customerType, long id, double balance) {
+	public Customer getCustomer(CustomerType customerType, 
+								long id, 
+								String name,
+								double balance) 
+	{
 		
 		// If Customer has already been created with this id, then do not
 		// create another one to avoid duplication or hacking
@@ -44,15 +48,15 @@ public class CustomerFactory {
 		
 		switch( customerType ) {
 			case SMALL:
-				SmallCustomer customerSmall = new SmallCustomer(id, balance);
+				SmallCustomer customerSmall = new SmallCustomer(id, name, balance);
 				customerMap.put(id, customerSmall);
 				return customerSmall;
 			case MEDIUM:
-				MediumCustomer customerMedium = new MediumCustomer(id, balance);
+				MediumCustomer customerMedium = new MediumCustomer(id, name, balance);
 				customerMap.put(id, customerMedium);
 				return customerMedium;
 			case LARGE:
-				LargeCustomer customerMediumLarge = new LargeCustomer(id, balance);
+				LargeCustomer customerMediumLarge = new LargeCustomer(id, name, balance);
 				customerMap.put(id, customerMediumLarge);
 				return customerMediumLarge;
 			default:

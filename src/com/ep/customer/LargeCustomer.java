@@ -8,8 +8,9 @@ import com.ep.product.Product;
 
 public class LargeCustomer extends AbstractCustomer {
 	
-	public LargeCustomer(long id, double balance) {
-		this.id = id;		
+	public LargeCustomer(long id, String name, double balance) {
+		this.id = id;	
+		this.name = name;
 		this.balance = balance;
 	}
 	
@@ -21,8 +22,7 @@ public class LargeCustomer extends AbstractCustomer {
 			throw new BadPurchaseException("No Product Was Assigned to Purchase!");
 		}
 		
-		// if single purchase amount is greater tan 10,000, then disallow the purchase
-		// and throw a PurchaseAmountExceededException.
+		// restrict single purchases to a hard coded ceiling ... soft code this later
 		// Note that the max amount is different for different Customer levels
 		if( product.getCost() > 75_000d ) {
 			throw new PurchaseAmountExceededException();
@@ -42,7 +42,8 @@ public class LargeCustomer extends AbstractCustomer {
 
 	public String getMetrics() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("LargeCustomer ID: " + id + "\n");
+		sb.append("ID: " + id + "\n");
+		sb.append("Name: " + name + "\n");
 		DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		sb.append("Balance: " + decimalFormat.format(balance) + "\n");
 		sb.append("Products Purchased: " + purchasedList.size() + "\n");

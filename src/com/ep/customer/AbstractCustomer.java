@@ -9,6 +9,9 @@ public abstract class AbstractCustomer implements Customer {
 	// member variable to hold the customer's ID
 	protected long id;
 	
+	// member variable to hold the customer's name
+	protected String name;
+	
 	// member variable to hold the customer's balance.
 	protected double balance = 0d;
 	
@@ -18,6 +21,11 @@ public abstract class AbstractCustomer implements Customer {
 	@Override
 	public long getID() {
 		return id;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
 	}
 	
 	@Override

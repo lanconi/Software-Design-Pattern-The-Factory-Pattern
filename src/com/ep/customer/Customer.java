@@ -10,6 +10,8 @@ public interface Customer {
 	
 	public abstract long 	getID();
 	
+	public abstract String getName();
+	
 	public abstract double 	getBalance();
 	
 	public abstract void	addCredit(double credit);

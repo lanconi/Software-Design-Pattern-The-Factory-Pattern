@@ -20,11 +20,14 @@ public class CustomerDemo {
 		
 		// Create 3 customers, each with a unique ID and  initial balances
 		Customer customerA = 
-					customerFactory.getCustomer(CustomerType.SMALL, 1459292, 25_000.00d);
+					customerFactory.getCustomer(CustomerType.SMALL, 1459292, 
+												"CustomerA", 25_000.00d);
 		Customer customerB = 
-					customerFactory.getCustomer(CustomerType.MEDIUM, 2245945, 60_000.00d);
+					customerFactory.getCustomer(CustomerType.MEDIUM, 2245945, 
+												"CustomerB", 60_000.00d);
 		Customer customerC = 
-					customerFactory.getCustomer(CustomerType.LARGE, 324772, 210_000.00d);
+					customerFactory.getCustomer(CustomerType.LARGE, 324772,
+												"CustomerC", 210_000.00d);
 		
 		// Print the initial metrics:
 		System.out.println(customerA.getMetrics() );
