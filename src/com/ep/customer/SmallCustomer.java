@@ -2,13 +2,29 @@ package com.ep.customer;
 
 import com.ep.exception.BadPurchaseException;
 import com.ep.exception.PurchaseAmountExceededException;
+import com.ep.exception.MalformedCustomerException;
 import com.ep.product.Product;
 
 import java.text.DecimalFormat;
 
 public class SmallCustomer extends AbstractCustomer {
 
-	public SmallCustomer(long id, String name, double balance) {
+	/**
+	 * Constructor for instantiating a SmallCustomer
+	 * @param id long
+	 * @param name String
+	 * @param balance double
+	 * @throws MalformedCustomerException if any parameters are invalid
+	 */
+	public SmallCustomer(long id, String name, double balance) 
+			throws MalformedCustomerException
+	{
+		if( id == 0  ) {
+			throw new MalformedCustomerException("Invalid id for SmallCustomer");
+		} else if( name == null ) {
+			throw new MalformedCustomerException("Invalid name for SmallCustomer");
+		}
+		
 		this.id = id;	
 		this.name = name;
 		this.balance = balance;

@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.ep.product.Product;
 
+/**
+ * 
+ * @author EP
+ *
+ */
 public abstract class AbstractCustomer implements Customer {
 	// member variable to hold the customer's ID
 	protected long id;
@@ -13,7 +18,7 @@ public abstract class AbstractCustomer implements Customer {
 	protected String name;
 	
 	// member variable to hold the customer's balance.
-	protected double balance = 0d;
+	protected double balance;
 	
 	// The List of Purchased objects
 	protected List<Product> purchasedList = new ArrayList<>();

@@ -4,16 +4,33 @@ import java.text.DecimalFormat;
 
 import com.ep.exception.BadPurchaseException;
 import com.ep.exception.PurchaseAmountExceededException;
+import com.ep.exception.MalformedCustomerException;
 import com.ep.product.Product;
 
 public class MediumCustomer extends AbstractCustomer {
 	
-	public MediumCustomer(long id, String name, double balance) {
+	/**
+	 * Constructor for instantiating a MediumCustomer
+	 * @param id long
+	 * @param name String
+	 * @param balance double
+	 * @throws MalformedCustomerException if any parameters are invalid
+	 */
+	public MediumCustomer(long id, String name, double balance) 
+				throws MalformedCustomerException
+	{
+		if( id == 0  ) {
+			throw new MalformedCustomerException("Invalid id for MediumCustomer");
+		} else if( name == null ) {
+			throw new MalformedCustomerException("Invalid name for MediumCustomer");
+		}
+		
 		this.id = id;	
 		this.name = name;
 		this.balance = balance;
 	}
 
+	@Override
 	public void makePurchase(	Product product )
 			throws PurchaseAmountExceededException, BadPurchaseException
 	{

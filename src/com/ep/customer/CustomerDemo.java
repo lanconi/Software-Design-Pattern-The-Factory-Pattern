@@ -3,32 +3,36 @@ package com.ep.customer;
 import com.ep.exception.BadPurchaseException;
 import com.ep.exception.ProductCreationException;
 import com.ep.exception.PurchaseAmountExceededException;
+import com.ep.exception.MalformedCustomerException;
 import com.ep.product.*;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.time.ZonedDateTime;
 
+/**
+ * 
+ * @author EP
+ *
+ */
 public class CustomerDemo {
 	
 	// Entry point for the CustomerDemo that will create some
 	// Customers and have them purchase Products
-	public static void main(String[] args ) {
+	public static void main(String[] args ) throws MalformedCustomerException
+	{
 		
 		// Get an instance of CustomerFactory
 		CustomerFactory customerFactory = CustomerFactory.getInstance();
 		
-		// Create 3 customers, each with a unique ID and  initial balances
-		Customer customerA = 
-					customerFactory.getCustomer(CustomerType.SMALL, 1459292, 
-												"CustomerA", 25_000.00d);
-		Customer customerB = 
-					customerFactory.getCustomer(CustomerType.MEDIUM, 2245945, 
-												"CustomerB", 60_000.00d);
-		Customer customerC = 
-					customerFactory.getCustomer(CustomerType.LARGE, 324772,
-												"CustomerC", 210_000.00d);
-		
+		// Define references to 3 customers
+		Customer customerA=  customerFactory.getCustomer(CustomerType.SMALL, 1459292, 
+							"CustomerA", 25_000.00d);
+		Customer customerB  = customerFactory.getCustomer(CustomerType.MEDIUM, 2245945, 
+							"CustomerB", 60_000.00d);
+		Customer customerC = customerFactory.getCustomer(CustomerType.LARGE, 324772,
+							"CustomerC", 210_000.00d);
+				
 		// Print the initial metrics:
 		System.out.println(customerA.getMetrics() );
 		System.out.println(customerB.getMetrics() );
