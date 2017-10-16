@@ -10,10 +10,10 @@ import java.time.ZonedDateTime;
  */
 public final class Product {
 	
-	private String name;
-	private double cost;
-	private String vendor;
-	private ZonedDateTime   zonedDateTime;
+	private final String name;
+	private final double cost;
+	private final String vendor;
+	private final ZonedDateTime   zonedDateTime;
 	
 	/**
 	 * The constructor for Product, which requires all valid arguments.

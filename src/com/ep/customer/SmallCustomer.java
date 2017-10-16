@@ -5,8 +5,6 @@ import com.ep.exception.PurchaseAmountExceededException;
 import com.ep.exception.MalformedCustomerException;
 import com.ep.product.Product;
 
-import java.text.DecimalFormat;
-
 /**
  * 
  * @author Lance Dooley

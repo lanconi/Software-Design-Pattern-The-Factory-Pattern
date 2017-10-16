@@ -1,7 +1,5 @@
 package com.ep.customer;
 
-import java.text.DecimalFormat;
-
 import com.ep.exception.BadPurchaseException;
 import com.ep.exception.PurchaseAmountExceededException;
 import com.ep.exception.MalformedCustomerException;

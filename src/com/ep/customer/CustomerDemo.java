@@ -85,7 +85,7 @@ public class CustomerDemo {
 			}
 		}
 		
-		// Print out the metrics for each customer, ID, remaining balance, etc ...s
+		// Print out the metrics for each customer; ID, remaining balance, etc ...s
 		
 		// customerA
 		// Print the initial metrics:
