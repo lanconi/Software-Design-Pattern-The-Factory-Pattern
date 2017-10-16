@@ -86,12 +86,39 @@ public class CustomerDemo {
 		}
 		
 		// Print out the metrics for each customer; ID, remaining balance, etc ...s
-		
 		// customerA
 		// Print the initial metrics:
 		System.out.println(customerA.getMetrics() );
 		System.out.println(customerB.getMetrics() );
 		System.out.println(customerC.getMetrics() );
+		
+		
+		// now we will use Behavior Parameterization and call the 
+		// filterCustomers method that takes a lambda argument that
+		// will act as a Predicate test condition.
+		// For example, we want to find out how many customers have a balance
+		// that is less than 1,000
+		List<Customer> lowBalanceCustomers = 
+				customerFactory.filterCustomers( p -> p.getBalance() < 1_000.00d );
+		
+		if( lowBalanceCustomers.size() > 0 ) {
+			System.out.println("Low Balance Customers ...");
+			for( Customer customer: lowBalanceCustomers ) {
+				System.out.println( customer.getName());
+			}
+		}
+
+		
+		// or, we could find out how many customers have purchased more than 10 Poducts
+		List<Customer> goodCustomers = 
+				customerFactory.filterCustomers( p -> p.getPurchasedQuantity() > 10 );
+
+		if( goodCustomers.size() > 0 ) {
+			System.out.println("Good Customers (who purchased more than 10 Products ...");
+			for( Customer customer: goodCustomers ) {
+				System.out.println( customer.getName());
+			}
+		}
 
 	}
 

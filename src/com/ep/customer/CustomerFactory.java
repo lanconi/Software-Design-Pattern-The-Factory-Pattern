@@ -3,6 +3,11 @@ package com.ep.customer;
 import com.ep.exception.MalformedCustomerException;
 import java.util.Map;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.function.Predicate;
+import java.util.Set;
+import java.util.Iterator;
 
 /**
  * The CustomerFactory is an integral component in the Creational Design Pattern
@@ -79,7 +84,33 @@ public class CustomerFactory {
 			default:
 				return null;
 		}
-
+	}
+	
+	/**
+	 * A generic filtering method that will return a List of Customers that
+	 * satisfy the lambda condition that is passed as an argument during
+	 * runtime.
+	 * @param p
+	 * @return List of Customers
+	 */
+	public List<Customer> filterCustomers(Predicate<Customer> p) {
+		List<Customer> list = new ArrayList<>();
+		
+		// go through the Map in this CustomerFactory and test
+		// each Customer to see if it satisfies the condition.
+		//private Map<Long, Customer> customerMap = new Hashtable<>();
+		Set<Long> set = customerMap.keySet();
+		Iterator<Long> iterator = set.iterator();
+		while( iterator.hasNext() ) {
+			Long longRef = iterator.next(); // get the key
+			Customer customer = customerMap.get(longRef); // get the value, the Customer
+			
+			// now test the condition
+			if( p.test( customer )) {
+				list.add(customer);
+			}
+		}
+		return list;
 	}
 
 }
