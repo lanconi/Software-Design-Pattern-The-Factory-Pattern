@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * The Customer interface provides a set of methods for accessing or modifying
  * Customer data. A Customer can be created by using the CustomerFactory class.
- * @author EP
+ * @author Lance Dooley
  */
 public interface Customer {
 	

@@ -20,7 +20,7 @@ import java.util.Hashtable;
  *   // take appropriate course of action
  * }
  *</pre>
- * @author EP
+ * @author Lance Dooley
  *
  */
 public class CustomerFactory {

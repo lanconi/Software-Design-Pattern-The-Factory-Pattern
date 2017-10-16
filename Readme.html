@@ -1,127 +1,387 @@
-<html>
+<!DOCTYPE HTML>
+<html lang="en">
+<META NAME="keywords" CONTENT="Factory Pattern, Singleton, Interface, Enum, Software Design Pattern, Working with Interfaces">
+<META NAME="description" CONTENT="Customer Interface and Factory Pattern.">
+
+<head>
+<title>Tutorial: Customer Interface & Factory Pattern with Java</title>
+	
+</head>
 
 <body>
-<h3>Software Design Pattern: The <b>Factory Pattern</b></h3>
-This repository is a demo for a Design Pattern known as the Factory Pattern.<br>
-The Factory Pattern allows one of several chosen types of concrete classs to be created that share a common interface, while hiding the creation logic from the user.<p>
 
-You can download all the java code for this demo in the eclipse directory format, compile it, and run the CustomerDemo class to see some output.<p>
+<h2>Tutorial: Customer Interface & Factory Pattern <i>with Java</i></h2>
 
-As seen in the diagram below, there are a number of classes required to implement the <b>Factory Pattern</b>.<p>
-In this demo, we have three different concrete implementations of a type of Customer that can be created.<p>
+<hr>
 
-<img src="FactoryPattern.png" height="271" width="600"><p>
 
-The CustomerFactory is called by the client and requests a Customer by using a specific long id and a CustomerType.<br>
-The CustomerFactory first checks to see if a Customer with this id has already been created, and if not, then it creates one of three concrete implementations of Customer ... SmallCustomer, MediumCustomer, and LargeCustomer.<p>
-The three concrete XXXCustomer classes share a number of methods, which are defined in AbsractCustomer, which in turn implements the Customer Interface.<p>
+<h3>SYNOPSIS:</h3>
+This tutorial will demonstrate how to implement a simple Customer interface and use the 
+Software Creational Design Pattern called Factory Pattern to create concrete objects that implement a Customer interface that we define.<p>
 
-The goal of this Customer heirarchy is to separate diffrent types of customers, and this becomes evident if you look inside of any of the three concrete XXXCustomer classes and note the makePurchase() method has a slightly different restriction. The result being, the "larger" a Customer type you are, the larger your one-time purchases can be.<p>
+<hr>
+<h3>FILES, SETUP, & ENVIRONMENT:</h3>
 
-Creating Customers looks like this in the actual code of the client, where each Customer is created with a CustomerType, a type long that indicates the unique id, and an initial monetary double balance that Customer can use to buy Products ...<br>
+It is not necessary for the student to download any files, but for the dedicated, it is recommended.<br>
+
+See the github link below to download the Eclipse (Neon) project for this demo.<p>
+<a href="https://github.com/lanconi/Software-Design-Pattern-The-Factory-Pattern" target="_blank">
+https://github.com/lanconi/Software-Design-Pattern-The-Factory-Pattern</a><p>
+
+<p>
+Or, you may just want to download the 13 individual java source code files by clicking on the following links:<p>
+<a href="Customer.java" target="_blank">Customer.java</a> 
+<a href="AbstractCustomer.java" target="_blank">AbstractCustomer.java</a> 
+<a href="SmallCustomer.java" target="_blank">SmallCustomer.java</a> 
+<a href="MediumCustomer.java" target="_blank">MediumCustomer.java</a> 
+<a href="LargeCustomer.java" target="_blank">LargeCustomer.java</a>
+<br>
+<a href="CustomerFactory.java" target="_blank">CustomerFactory.java</a> 
+<a href="CustomerType.java" target="_blank">CustomerType.java</a>
+<br>
+<a href="ProductCreationException.java" target="_blank">ProductCreationException.java</a> 
+<a href="PurchaseAmountExceededException.java" target="_blank">PurchaseAmountExceededException.java</a> 
+<a href="MalformedCustomerException.java" target="_blank">MalformedCustomerException.java</a> 
+<a href="BadPurchaseException.java" target="_blank">BadPurchaseException.java</a> 
+<br>
+<a href="Product.java" target="_blank">Product.java</a> 
+<a href="CustomerDemo.java" target="_blank">CustomerDemo.java</a>
+
+<p>
+In the Java ecosystem, there is an namespace schema called <u>package</u>, which recommends grouping code files
+together that are similar in nature.<br>
+The package naming convention follows a reverse DNS pattern, so if our company is called EP, then our 3 
+packages for this tutorial are named as follows ...<p>
+com.ep.customer<br>
+com.ep.exception<br>
+com.ep.product<br>
+
+
+<p>
+
+<hr>
+
+<h3>GOALS:</h3>
+<ul>
+	<li>Understand how to use the Software Design <u>Factory Pattern</u> to create different concrete classes that implement a defined Interface</li>
+	<li>Understand how to programmatically use an Interface</li>
+	<li>Understand the difference between an Interface, Abstract Class, and Class</li>
+	<li>Understand how to modify an Interface</li>
+</ul>
+
+<hr>
+
+<h3>SCENARIO:</h3>
+
+Imagine you are a company that brokers the sale of products to customers.<p>
+Your customers fall into 3 categories:<br>
+Small, Medium, and Large (depending upon the number of products they buy each business cycle).<p>
+You must create a software framework that keeps track of how many Customers you have,
+each of their balances, and how many Products each Customer purchases.<p>
+
+The framework you are creating is used internally by your company, and is not accessible by the end customers.<p>
+
+<i>Another assignment would be to provide a front end for Customers to buy the product, but we will not cover that here.</i>
+
+<hr>
+<h3>CLASS DIAGRAM:</h3>
+
+Our first task is to establish a class diagram showing how we can efficiently create 3 different types of Customer, that share a common
+AbstractCustomer class, which implements a common interface named Customer .<p>
+
+In the Software world, there exists an extensive set of Design Patterns that can be used to help implement similarly recurring types of problems.<p>
+
+In our scenario, the Design Pattern known as Factory Pattern is perfect and now we can directly translate most of the scenario
+described above into a class diagram showing the hierarchy and dependencies of our classes and interfaces.<p>
+
+<img src="FactoryPattern.png" height="405" width="600"><br>
+
+<hr>
+
+<h3>HOW IT WORKS:</h3>
+
+How does a Factory Pattern work?<p>
+
+An application gets an instance of <b>CustomerFactory</b> (which is also a Singleton in this tutorial).<p>
+ 
+Then the application requests <b>CustomerFactory</b> to create an instance of any one of three concrete classes we have defined:<p>
+<b>LargeCustomer</b><br>
+<b>MediumCustomer</b><br>
+<b>SmallCustomer</b><p>
+
+The type of concrete class created will depend upon the variables passed into the request given to CustomerFactory.<p>
+
+In java code, it looks like this (we are creating 3 different types of Customers and initializing them each
+with a unique id and a balance)  ...<p>
+
+<font color="red">
 <pre>
 CustomerFactory customerFactory = CustomerFactory.getInstance();
 Customer customerA = customerFactory.getCustomer(CustomerType.SMALL, 1459292, 25_000.00d);
 Customer customerB = customerFactory.getCustomer(CustomerType.MEDIUM, 2245945, 60_000.00d);
 Customer customerC = customerFactory.getCustomer(CustomerType.LARGE, 324772, 210_000.00d);
 </pre>
+</font>
 <p>
 
-Another thing to note is that the CustomerFactory is also a Singleton, which means there can only be one CustomerFactory for the entire application. This is why CustomerFactory.getinstance() is called as shown above. We only have one instance of CustomerFactory and it is created in a Lazy Susan manner.<br>
-The CustomerFactory can keep track of how many Customers are created and store them in a Map that is checked each time a new Customer is created. We don't want to have two Customers with the same id!
-<p>
+You will notice that the explicit returned reference to each concreate class is of type <b>Customer</b> and not the concrete class.<p>
 
-Also in this demo is a class called Product, which has fields corresponding to a type String name and type double cost.<br>
-Now, the client creates as many Product(s) as desired as shown below ...<p>
+This is because a class type may be referenced by the type of its parent without an explicit cast, due to the Object Oriented principle of
+inheritance.<p>
+
+The purpose of the Factory Pattern is to hide the details of how the concrete classes are created and make it easier
+to create objects.<p>
+
+Now that we have some references to Customer objects, let's explore the Customer interface ...
+<hr>
+
+
+<h3>CUSTOMER INTERFACE:</h3>
+
+At the core of our example is the Customer Interface.<p>
+
+<img src="CustomerInterface.png" height="238" width="238"><br>
+
+<p>
+Here we can see the methods which are "exposed", allowing a developer to access the 
+state of a Customer.<br>
+
+<font color="red">
 <pre>
-// create some dummy Product Objects and put them in a List<Product>
-List<Product> productList = new ArrayList<>();
-for( int i = 1; i <= 21; i++ ) {
-	try {
-		Product p = new Product("Product" + i, i*1_000d);
-		productList.add(p);
-	} catch( ProductCreationException ex ) {
-		System.out.println( ex.getMessage() );
-	}			
-}
- </pre>
+public abstract long 	getID();
 
-Then the client can have any of the Customer objects try and purchase any or all of the Product(s). Here we loop through all of the Product(s) in the List<Product> productList and have customerA, who is a SmallCustomer, attempt to buy them all ...
-<p>
+public abstract String getName();
+
+public abstract double 	getBalance();
+	
+public abstract void	addCredit(double credit);
+	
+public abstract void 	makePurchase(	Product product )
+	throws PurchaseAmountExceededException, BadPurchaseException;
+
+public abstract List<Product> getPurchasedList();
+
+public abstract int	getPurchasedQuantity();
+
+public abstract double getTotalPurchasesAmount();
+
+public abstract double getAveragePurchaseAmount();
+
+public abstract String getMetrics();
+</pre>
+</font>
+
+But, Customer is only an interface, and we have to go deeper into the
+Object Oriented Hierarchy in order to get to the implementation of a Customer.<p>
+
+Any abstract or concrete class implementing Customer, will have to define all of
+the methods shown above<p>
+
+To declare that an abstract or concreate class needs to implement the methods of an interface,
+we use the implements keyword, or the extends keyword if we are extending a class, as shown below ...<p>
+
+<font color="red">
 <pre>
-for( Product product: productList) {
-	// customerA
-	try { 
-		customerA.makePurchase(product);
-	} catch( PurchaseAmountExceededException paec) {
+public Interface Customer
+public abstract class AbstractCustomer implements Customer
+public class SmallCustomer extends AbstractCustomer
+public class MediumCustomer extends AbstractCustomer
+public class LargeCustomer extends AbstractCustomer
+</pre>
+</font>
 
-	} catch( BadPurchaseException bpe ) {
+Therefore we have established an inheritance hierarchy, and the following can be said ... <p>
+AbstractCustomer is a Customer<br>
+SmallCustomer is an AbstractCustomer is a Customer<br>
+MediumCustomer is an AbstractCustomer is a Customer<br>
+LargeCustomer is an AbstractCustomer is a Customer<br>
 
-	}
+<p>
+
+Essentially, each of the 3 concrete classes are a Customer and Customer is like a handle that carries 
+a slightly different payload, that could potentially be very different internally, but can be
+accessed in the identical manner through the interface declaration.<p>
+<hr>
+
+
+<h3>CREATE A PRODUCT AND MAKE A PURCHASE</h3>
+
+Let's use our Customer interface to create a Product and make a purchase.<p>
+
+First, we establish a Product in the system using our Product class.<p> 
+
+The Product we establish will be
+an ARM Microprocessor that costs $50.00 and the vendor is called "Micro Sim Corp."
+<p>
+
+<font color="red">
+<pre>
+Product armMicroprocessor = 
+	new Product("ARM Microprocessor", 50.00d, "Micro Sim Corp.", ZonedDateTime.now());
+</pre>
+</font>
+			
+Now we have customerA make a purchase by calling the makePurchase() method from the Customer interface. <br>
+Keep in mind that customerA is of type SmallCustomer, and the internal details of SmallCustomer may
+be very different than MediumCustomer or LargeCustomer.<p>
+			
+<font color="red">
+<pre>							
+try { 
+ customerA.makePurchase(armMicroprocessor);
+} catch( PurchaseAmountExceededException paec) {
+ // take appropriate action
+} catch( BadPurchaseException bpe ) {
+	// take appropriate action
 }
- </pre> 
+</pre>
+</font>
 
-As suspected, the Customer's balance may reach 0 before all of the Products are purchased and hence any problem making a purchase causes an Exception to be thrown in the makePurchase method and we catch it with customized Exceptions called PurchaseAmountExceededException and BadPurchaseException.
-# Software-Design-Factory-Pattern
-This repository is a demo for a Design Pattern known as the Factory Pattern.<br>
-The Factory Pattern allows one of several chosen types of concrete classs to be created that share a common interface, while hiding the creation logic from the user.<br>
-You can download all the java code for this demo, compile it, and run the CustomerDemo class to see some output.<br>
-Then you can tweak any of the classes as you desire.<p>
-As we can see from the diagram below, there are a number of classes required to immplement this Pattern.<p>
-In this demo, we have three different concrete implementations of a type of Customer that can be created.<p>
+Why do we need the try catch statements?<br>
+If you look at the Customer interface, where the makePurchase() method is defined, you will note that
+makePurchase declares that it can throw two Exceptions.<p>
 
-<img src="FactoryPattern.png" height="271" width="600"><p>
+Declaration from <a href="Customer.java" target="_blank">Customer.java</a>  ... <p>
 
-The CustomerFactory is called by the client and requests a Customer by using a specific long id and a CustomerType.<br>
-The CustomerFactory first checks to see if a Customer with this id has already been created, and if not, then it creates one of three concrete implementations of Customer ... SmallCustomer, MediumCustomer, and LargeCustomer.<p>
-The three concrete XXXCustomer classes share a number of methods, which are defined in AbsractCustomer, which in turn implements the Customer Interface.<p>
+<font color="red">
+<pre>
+public abstract void makePurchase( Product product )
+ 	throws PurchaseAmountExceededException, BadPurchaseException;
+</pre>
+</font>
 
-The goal of this Customer heirarchy is to separate diffrent types of customers, and this becomes evident if you look inside of any of the three concrete XXXCustomer classes and note the makePurchase() method has a slightly different restriction. The result being, the "larger" a Customer type you are, the larger your one-time purchases can be.<p>
+<hr>
+<h3>PRINT OUT SOME METRICS FOR A CUSTOMER</h3>
 
-Creating Customers looks like this in the actual code of the client, where each Customer is created with a CustomerType, a type long that indicates the unique id, and an initial monetary double balance that Customer can use to buy Products ...<br>
+Our Customer interface defines a getMetrics() method and we can use it at any time, in conjunction with 
+Java's System.out.println() method to see some human readable metrics.
+
+<font color="red">
+<pre>
+System.out.println( customerA.getMetrics() );
+</pre>
+</font>
+
+<hr>
+
+<h3>DRIVER CLASS</h3>
+
+It is common to create a driver or demo application to test a framework, and we have written
+<a href="CustomerDemo.java" target="_blank">CustomerDemo.java</a>  to explore how to use this <b>Factory Pattern</b>
+to create concrete instances of several types of Customer and have each Customer buy a as many Products as they
+can until they run out of money. 
+
+<p>
+Every Product purchase is recorded and
+metrics or other business or financial analytics could be incorporated into this mechanism.<br>
+
+<HR>
+
+<h3>MODIFY THE INTERFACE</h3>
+
+It is now time to modify the interface and enhance it in some way.<p>
+If your task was to modify the Customer interface by  <u>providing a way to add money to the balance
+of your Customer</u>, then this is what you must do ...<p>
+
+<h4>1. Add a new abstract <u>method declaration</u> in the Customer interface</h4>
+Go to  <a href="Customer.java" target="_blank">Customer.java</a> and add the following line of code:<br>
+<font color="red">
+<pre>
+public abstract void addBalance(double amount);
+</pre>
+</font>
+
+<h4>2. Add a <u>method definition</u> in the AbstractCustomer class</h4>
+Go to  <a href="AbstractCustomer.java" target="_blank">AbstractCustomer.java</a> and add the following lines of code:<br>
+<font color="red">
+<pre>
+@Override
+public void addBalance(double amount) {
+ if( amount > 0 ) {
+	balance += amount;
+ }
+}
+</pre>
+</font>
+
+Note that we safeguarded our addBalance method so that it is only possible to add positive amounts
+to the Customer's balance! This is because the only way to subtract from the Customer's balance should
+be when they are making a purchase.<br>
+This safeguard may prevent hacking!
+
+<h4>3. Add a method definition in the concrete Class</h4>
+Normally, we would be finished implementing our new functionality.<br>
+But, what if we want the behavior of one of the concrete classes to be different than what is provided by
+the common parent class AbstractCustomer?<p>
+
+For example, what if we wanted to "tax" SmallCustomer by 10% every time money was added to the balance?<br>
+Then we would Override the addBalance method only in SmallCustomer as shown ..<p>
+Go to  <a href="SmallCustomer.java" target="_blank">SmallCustomer.java</a> and add the following lines of code:<br>
+<font color="red">
+<pre>
+@Override
+public void addBalance(double amount) {
+ if( amount > 0 ) {
+	balance += (amount * .9d);
+ }
+}
+</pre>
+</font>
+
+<hr>
+<h3>EXTRA CREDIT ASSIGNMENT</h3>
+
+This self study extra credit assignment can be done on your own time, so see if you can do it.<p>
+
+Expand the implementation of our Customer interface by adding a new class to accomodate very large customers.<br>
+This new class will be called: VeryLargeCustomer.<p>
+
+Hint: create a new java file named <u>VeryLargeCustomer.java</u> and paste this code into it, and then you can fill out the rest ..<p>
+<font color="red">
+<pre>
+package com.ep.customer;
+
+import java.text.DecimalFormat;
+
+import com.ep.exception.BadPurchaseException;
+import com.ep.exception.PurchaseAmountExceededException;
+import com.ep.exception.MalformedCustomerException;
+import com.ep.product.Product;
+
+public class VeryLargeCustomer extends AbstractCustomer {
+ // TODO - define Constructor and all necessary methods ...
+}
+</pre>
+</font>
+
+Also, you must add an extra ENUM value in CustomerType.java as shown ...
+
+<font color="red">
+<pre>
+public enum CustomerType {
+ SMALL,
+ MEDIUM,
+ LARGE,
+ VERYLARGE // <- Add this line!
+}
+</pre>
+</font>
+
+Now, to create a Customer of type VeryLargeCustomer, you would simply write code like this in your application ...
+
+<font color="red">
 <pre>
 CustomerFactory customerFactory = CustomerFactory.getInstance();
-Customer customerA = customerFactory.getCustomer(CustomerType.SMALL, 1459292, 25_000.00d);
-Customer customerB = customerFactory.getCustomer(CustomerType.MEDIUM, 2245945, 60_000.00d);
-Customer customerC = customerFactory.getCustomer(CustomerType.LARGE, 324772, 210_000.00d);
+Customer customerD = customerFactory.getCustomer(CustomerType.VERYLARGE, 340999, 500_000.00d);
 </pre>
-<p>
+</font>
 
-Another thing to note is that the CustomerFactory is also a Singleton, which means there can only be one CustomerFactory for the entire application. This is why CustomerFactory.getinstance() is called as shown above. We only have one instance of CustomerFactory and it is created in a Lazy Susan manner.<br>
-The CustomerFactory can keep track of how many Customers are created and store them in a Map that is checked each time a new Customer is created. We don't want to have two Customers with the same id!
-<p>
 
-Also in this demo is a class called Product, which has fields corresponding to a type String name and type double cost.<br>
-Now, the client creates as many Product(s) as desired as shown below ...<p>
-<pre>
-// create some dummy Product Objects and put them in a List<Product>
-List<Product> productList = new ArrayList<>();
-for( int i = 1; i <= 21; i++ ) {
-	try {
-		Product p = new Product("Product" + i, i*1_000d);
-		productList.add(p);
-	} catch( ProductCreationException ex ) {
-		System.out.println( ex.getMessage() );
-	}			
-}
- </pre>
 
-Then the client can have any of the Customer objects try and purchase any or all of the Product(s). Here we loop through all of the Product(s) in the List<Product> productList and have customerA, who is a SmallCustomer, attempt to buy them all ...
-<p>
-<pre>
-for( Product product: productList) {
-	// customerA
-	try { 
-		customerA.makePurchase(product);
-	} catch( PurchaseAmountExceededException paec) {
+<hr>
+email: <a href="mailto:lance@lancedooley.com">lance@lancedooley.com</a>   
 
-	} catch( BadPurchaseException bpe ) {
+<h3> <a href="https://github.com/lanconi" target="_blank"><img src=../githubicon.png> Lance's Github</h3> </a><br>
 
-	}
-}
- </pre> 
 
-As suspected, the Customer's balance may reach 0 before all of the Products are purchased and hence any problem making a purchase causes an Exception to be thrown in the makePurchase method and we catch it with customized Exceptions called PurchaseAmountExceededException and BadPurchaseException.
-
-</body>
 </html>

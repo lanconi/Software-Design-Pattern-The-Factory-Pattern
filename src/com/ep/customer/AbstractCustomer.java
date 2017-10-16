@@ -1,5 +1,6 @@
 package com.ep.customer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import com.ep.product.Product;
 
 /**
  * 
- * @author EP
+ * @author Lance Dooley
  *
  */
 public abstract class AbstractCustomer implements Customer {
@@ -69,6 +70,18 @@ public abstract class AbstractCustomer implements Customer {
 			return 0.0d;
 		
 		return getTotalPurchasesAmount()/getPurchasedQuantity();
+	}
+	
+	public String getMetrics() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("ID: " + id + "\n");
+		sb.append("Name: " + name + "\n");
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		sb.append("Balance: " + decimalFormat.format(balance) + "\n");
+		sb.append("Products Purchased: " + purchasedList.size() + "\n");
+		sb.append("Total Purchases: " + decimalFormat.format(getTotalPurchasesAmount())  + "\n");
+		sb.append("Average Purchase Amount: " + decimalFormat.format(getAveragePurchaseAmount())  + "\n");
+		return sb.toString();
 	}
 
 

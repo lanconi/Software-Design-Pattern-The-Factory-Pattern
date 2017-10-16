@@ -2,7 +2,7 @@ package com.ep.customer;
 
 /**
  * 
- * @author EP
+ * @author Lance Dooley
  *
  */
 public enum CustomerType {

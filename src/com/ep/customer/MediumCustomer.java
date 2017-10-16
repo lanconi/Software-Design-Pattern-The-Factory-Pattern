@@ -7,6 +7,11 @@ import com.ep.exception.PurchaseAmountExceededException;
 import com.ep.exception.MalformedCustomerException;
 import com.ep.product.Product;
 
+/**
+ * 
+ * @author Lance Dooley
+ *
+ */
 public class MediumCustomer extends AbstractCustomer {
 	
 	/**
@@ -55,18 +60,6 @@ public class MediumCustomer extends AbstractCustomer {
 		
 		// Add the product to the List<Product>purchasedList
 		purchasedList.add(product);
-	}
-	
-	public String getMetrics() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("ID: " + id + "\n");
-		sb.append("Name: " + name + "\n");
-		DecimalFormat decimalFormat = new DecimalFormat("0.00");
-		sb.append("Balance: " + decimalFormat.format(balance) + "\n");
-		sb.append("Products Purchased: " + purchasedList.size() + "\n");
-		sb.append("Total Purchases: " + decimalFormat.format(getTotalPurchasesAmount())  + "\n");
-		sb.append("Average Purchase Amount: " + decimalFormat.format(getAveragePurchaseAmount())  + "\n");
-		return sb.toString();
 	}
 
 }

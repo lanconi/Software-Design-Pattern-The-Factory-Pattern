@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 
 /**
  * An immutable Class that represents a product that can be sold.
- * @author EP
+ * @author Lance Dooley
  */
 public final class Product {
 	

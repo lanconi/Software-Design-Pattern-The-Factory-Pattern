@@ -2,7 +2,7 @@ package com.ep.exception;
 
 /**
  * 
- * @author EP
+ * @author Lance Dooley
  *
  */
 public class MalformedCustomerException extends Exception {
