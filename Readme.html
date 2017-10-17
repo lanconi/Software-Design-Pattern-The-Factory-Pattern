@@ -376,7 +376,68 @@ Customer customerD = customerFactory.getCustomer(CustomerType.VERYLARGE, 340999,
 </pre>
 </font>
 
+<hr>
+<h3>ADVANCED CONCEPTS - BEHAVIOR PARAMETERIZATION, PREDICATE, AND LAMBDA</h3>
 
+This section will show how to use some new features in Java 8 that will make our Customer interface
+more flexible.
+<p>
+We will define a method in CustomerFactory that will use behavior parameterization.
+<p>
+In <u>CustomerFactor.java</u>, we inserted this method definition.
+
+<font color="red">
+<pre>
+public List<Customer> filterCustomers(Predicate<Customer> p) {
+ List<Customer> list = new ArrayList<>();
+		
+ // go through the Map in this CustomerFactory and test
+ // each Customer to see if it satisfies the condition.
+ Set<Long> set = customerMap.keySet();
+ Iterator<Long> iterator = set.iterator();
+ while( iterator.hasNext() ) {
+	Long longRef = iterator.next(); // get the key
+	Customer customer = customerMap.get(longRef); // get the value, the Customer
+			
+	// now test the condition, and if test is passed, then
+	// add the customer to the List
+	if( p.test( customer )) {
+		list.add(customer);
+	}
+ }
+ return list;
+}
+</pre>
+</font>
+
+Now that we have our behavior parameterization method all set up, we begin using it in 
+our application, <u>CustomerDemo.java</u><p>
+
+Let's say, we want to get a List of all the Customers who's balance is each less than
+1,000. <p>
+
+In <u>CustomerDemo.java</u>  we pass in a lambda as an argument to the our method and assign the
+return value to a List named lowBalanceCustomers ... <p>
+
+<font color="red">
+<pre>
+List<Customer> lowBalanceCustomers = 
+ customerFactory.filterCustomers( p -> p.getBalance() < 1_000.00d );
+</pre>
+</font>
+
+And, if the method returns a List that is not empty, then we can print out the names
+of all the Customers, like this ...
+<font color="red">
+<pre>
+if( lowBalanceCustomers.size() > 0 ) {
+ System.out.println("Low Balance Customers ...");
+ for( Customer customer: lowBalanceCustomers ) {
+ System.out.println( customer.getName());
+ }
+}
+</pre>
+</font>
 
 <hr>
 email: <a href="mailto:lance@lancedooley.com">lance@lancedooley.com</a>   
