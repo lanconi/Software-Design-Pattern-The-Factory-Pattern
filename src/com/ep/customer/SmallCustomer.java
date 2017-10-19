@@ -60,4 +60,11 @@ public class SmallCustomer extends AbstractCustomer {
 		purchasedList.add(product);
 	}
 	
+	@Override
+	public void addBalance(double amount) {
+	 if( amount > 0 ) {
+		balance += (amount * .9d);
+	 }
+	}
+	
 }

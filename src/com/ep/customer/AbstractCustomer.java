@@ -39,10 +39,11 @@ public abstract class AbstractCustomer implements Customer {
 		return balance;
 	}
 	
-	public void addCredit(double credit) {
-		balance += credit;
+	public void addBalance(double amount) {
+		 if( amount > 0 ) {
+			balance += amount;
+		 }
 	}
-
 	
 	@Override
 	public List<Product> getPurchasedList() {

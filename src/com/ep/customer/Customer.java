@@ -34,9 +34,9 @@ public interface Customer {
 	/**
 	 * Add credit to the Customer, which is not defined as being any particular currency in this
 	 * interface.
-	 * @param credit A double value.
+	 * @param amount A double value.
 	 */
-	public abstract void	addCredit(double credit);
+	public abstract void addBalance(double amount);
 	
 	/**
 	 * Use this method on a Customer to have the Customer purchase a Product that was
